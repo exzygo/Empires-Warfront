@@ -12,21 +12,30 @@ int main(void) {
     Texture2D cannons_texture = LoadTexture("assets/textures/twlb_t01-FR.png");
     Texture2D cannons_texture_selec = LoadTexture("assets/textures/twlb-selec_t01-FR.png");
 
-    s_unit units[2];
+    Texture2D hussars_texture = LoadTexture("assets/textures/cav_t01-FR.png");
+    Texture2D hussars_texture_selec = LoadTexture("assets/textures/cav-selec_t01-FR.png");
+
+    s_unit units[3];
 
     units[0] = init_unit(
-        L_INFANTRY, 100, 10, 5,
-        (Vector2){100, 100}, 2.0f,
+        L_INFANTRY, 100, 10, 5, 
+        (Vector2){100, 100}, 2.0f, 
         infantry_texture, infantry_texture_selec
     );
 
     units[1] = init_unit(
-        TWLB_ART, 80, 30, 3,
-        (Vector2){200, 200}, 1.5f,
+        TWLB_ART, 80, 30, 3, 
+        (Vector2){200, 200}, 1.5f, 
         cannons_texture, cannons_texture_selec
     );
 
-    int unit_count = 2;
+    units[2] = init_unit(
+        HUSSARS, 125, 25, 5, 
+        (Vector2){300, 300}, 3.5f, 
+        hussars_texture, hussars_texture_selec
+    );
+
+    int unit_count = 3;
 
     SetTargetFPS(60);
 
@@ -51,7 +60,7 @@ while (!WindowShouldClose()) {
         // Caixa muito pequena = trata como clique normal
         if (box.width < 4 && box.height < 4) {
             select_units(units, unit_count, GetMousePosition());
-        } 
+        }
         else {
             // Drag box = seleção múltipla
             deselect_all(units, unit_count);
@@ -85,6 +94,9 @@ while (!WindowShouldClose()) {
 
     UnloadTexture(cannons_texture);
     UnloadTexture(cannons_texture_selec);
+
+    UnloadTexture(hussars_texture);
+    UnloadTexture(hussars_texture_selec);
 
     CloseWindow();
 
