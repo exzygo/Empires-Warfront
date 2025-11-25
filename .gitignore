@@ -53,3 +53,6 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# output files of the project (garbage, bleh)
+ewgame
