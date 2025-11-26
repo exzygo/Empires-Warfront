@@ -133,8 +133,6 @@ void move_unit_target(s_unit *u, float dt) {
 }
 
 void apply_formation(s_unit units[], int count, formation_t f) {
-
-    // Descobrir quantas estão selecionadas
     int sel_count = 0;
     for (int i = 0; i < count; i++)
         if (units[i].selected)

@@ -1,8 +1,19 @@
 #include "raylib.h"
 #include "raymath.h"
-
 #include "headers/unit.h"
-#include "headers/utils.h"
+
+#define DEFAULT_FONT_PATH "assets/fonts/GamePausedDEMO.otf"
+#define DEFAULT_FONT_SIZE 20
+
+Font default_font;
+
+void DrawTextDefault(const char *text, int x, int y, int size, Color color) {
+    DrawTextEx(
+        default_font, text, (Vector2){x, y}, 
+        size, 1, color
+    );
+}
+
 
 int main(void) {
     InitWindow(800, 600, "Empires Warfront");
@@ -16,6 +27,10 @@ int main(void) {
 
     Texture2D hussars_texture = LoadTexture("assets/textures/cav_t01-FR.png");
     Texture2D hussars_texture_selec = LoadTexture("assets/textures/cav-selec_t01-FR.png");
+
+    // Carregando fonte
+    default_font = LoadFont(DEFAULT_FONT_PATH);
+    SetTextureFilter(default_font.texture, TEXTURE_FILTER_BILINEAR);
 
     formation_t current_formation = FORM_NONE;
 
@@ -100,7 +115,6 @@ int main(void) {
 
             if (sel_count == 0) {
                 // sem unidades selecionadas -> nada a fazer (ou mover unidade individual)
-                // opcional: você pode implementar seleção por clique direito aqui
             } else {
                 Vector2 center = (Vector2){0.0f, 0.0f};
                 for (int k = 0; k < sel_count; k++) {
@@ -116,7 +130,7 @@ int main(void) {
                 Vector2 forward = Vector2Subtract(click, center);
                 float forward_len = sqrtf(forward.x*forward.x + forward.y*forward.y);
                 if (forward_len < 0.0001f) {
-                    forward = (Vector2){1.0f, 0.0f}; // padrão para evitar NaN
+                    forward = (Vector2){1.0f, 0.0f};
                 } else {
                     forward = Vector2Scale(forward, 1.0f / forward_len);
                 }
@@ -131,11 +145,9 @@ int main(void) {
                 for (int k = 0; k < sel_count; k++) {
                     int idx = sel_indices[k];
 
-                    // baseOffset centrado
                     Vector2 baseOffset = {0.0f, 0.0f};
 
                     if (current_formation == FORM_LINE) {
-                        // centraliza a linha no ponto clicado: índices distribuem-se ao redor do centro
                         baseOffset.x = ((float)k - mid) * spacing_x;
                         baseOffset.y = 0.0f;
                     }
@@ -156,10 +168,9 @@ int main(void) {
                         baseOffset.y = 0.0f;
                     }
 
-                    // rotaciona o offset segundo a orientação desejada (angle)
+                    // Sem rotação aplicada
                     Vector2 rotated = baseOffset;
 
-                    // destino final = clique + offset rotacionado
                     Vector2 destination = Vector2Add(click, rotated);
 
                     units[idx].target = destination;
@@ -168,7 +179,6 @@ int main(void) {
                 }
             }
         }
-
 
         // Interação com o menu
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
@@ -206,7 +216,7 @@ int main(void) {
 
             // Botão principal
             DrawRectangleRec(btn_formations, RAYWHITE);
-            DrawText("Formations", btn_formations.x + 5, btn_formations.y + 5, 20, BLACK);
+            DrawTextDefault("Formations", btn_formations.x + 4, btn_formations.y + 4, DEFAULT_FONT_SIZE, BLACK);
 
             // Menu secundário
             if (show_formation_menu) {
@@ -215,13 +225,13 @@ int main(void) {
                 Color wedgeColor  = (current_formation == FORM_WEDGE)  ? YELLOW : LIGHTGRAY;
 
                 DrawRectangleRec(btn_line, lineColor);
-                DrawText("Line", btn_line.x + 10, btn_line.y + 5, 20, BLACK);
+                DrawTextDefault("Line", btn_line.x + 20, btn_line.y + 5, DEFAULT_FONT_SIZE, BLACK);
 
                 DrawRectangleRec(btn_column, columnColor);
-                DrawText("Column", btn_column.x + 5, btn_column.y + 5, 20, BLACK);
+                DrawTextDefault("Column", btn_column.x + 5, btn_column.y + 5, DEFAULT_FONT_SIZE, BLACK);
 
                 DrawRectangleRec(btn_wedge, wedgeColor);
-                DrawText("Wedge", btn_wedge.x + 10, btn_wedge.y + 5, 20, BLACK);
+                DrawTextDefault("Wedge", btn_wedge.x + 7, btn_wedge.y + 5, DEFAULT_FONT_SIZE, BLACK);
             }
 
 
