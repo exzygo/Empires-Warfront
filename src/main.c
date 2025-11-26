@@ -14,7 +14,6 @@ void DrawTextDefault(const char *text, int x, int y, int size, Color color) {
     );
 }
 
-
 int main(void) {
     InitWindow(800, 600, "Empires Warfront");
 
@@ -27,6 +26,9 @@ int main(void) {
 
     Texture2D hussars_texture = LoadTexture("assets/textures/cav_t01-FR.png");
     Texture2D hussars_texture_selec = LoadTexture("assets/textures/cav-selec_t01-FR.png");
+
+    // Carregando spritesheet
+    Texture2D ui_spritsheet = LoadTexture("assets/ui/fantasy-ui-spritesheet.png");
 
     // Carregando fonte
     default_font = LoadFont(DEFAULT_FONT_PATH);
@@ -301,6 +303,10 @@ int main(void) {
 
     UnloadTexture(hussars_texture);
     UnloadTexture(hussars_texture_selec);
+
+    UnloadTexture(ui_spritsheet);
+
+    UnloadFont(default_font);
 
     CloseWindow();
 
