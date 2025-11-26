@@ -4,6 +4,14 @@
 #include "raylib.h"
 
 typedef enum {
+    FORM_NONE,
+    FORM_LINE,
+    FORM_COLUMN,
+    FORM_WEDGE
+} formation_t;
+
+
+typedef enum {
     L_INFANTRY,               // Line Infantry
     TWLB_ART,                 // 12-lb Cannons Artillery
     HUSSARS                   // Hussars
@@ -20,6 +28,9 @@ typedef struct {
     bool selected;            // Se a unidade está selecionada ou não
     Texture2D texture;        // Textura para desenhar a unidade
     Texture2D selec_texture;  // Textura para desenhar ao selecionar a unidade
+    Vector2 target;           // Target move da unidade
+    bool is_moving;           // Verifica se a unidade está se movimentando
+    formation_t formation;    // Formação da unidade
 } s_unit;
 
 s_unit init_unit(unit_t type, int health, int attack_power,
@@ -34,10 +45,12 @@ bool unit_is_clicked(s_unit *unit, Vector2 mouse_pos);
 void drag_select_units(s_unit units[], int count, Rectangle selection_box);
 void start_selection(Vector2 mouse_pos);
 void update_selection(Vector2 mouse_pos);
+
 Rectangle get_selection_box();
 extern bool is_dragging;
 
+void move_unit_target(s_unit *u, float dt);
 
-
+void apply_formation(s_unit units[], int count, formation_t f);
 
 #endif // UNIT_H
