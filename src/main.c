@@ -4,6 +4,8 @@
 
 #define DEFAULT_FONT_PATH "assets/fonts/GamePausedDEMO.otf"
 #define DEFAULT_FONT_SIZE 20
+#define SPRITESHEET_WIDTH   512
+#define SPRITESHEET_HEIGHT  512
 
 Font default_font;
 
@@ -29,6 +31,8 @@ int main(void) {
 
     // Carregando spritesheet
     Texture2D ui_spritsheet = LoadTexture("assets/ui/fantasy-ui-spritesheet.png");
+    Rectangle uiss_source_rec = { 810, 700, 110, 80 };
+    Vector2 uiss_position = { 690, 510 };
 
     // Carregando fonte
     default_font = LoadFont(DEFAULT_FONT_PATH);
@@ -61,12 +65,12 @@ int main(void) {
     SetTargetFPS(60);
 
     // Elementos da UI
-    Rectangle ui_bar = {0, 550, 800, 50};
+    Rectangle ui_bar = {0, 530, 800, 80};
 
-    Rectangle btn_formations = {20, 560, 120, 30};
-    Rectangle btn_line      = {160, 560, 80, 30};
-    Rectangle btn_column    = {250, 560, 80, 30};
-    Rectangle btn_wedge     = {340, 560, 80, 30};
+    Rectangle btn_formations = {20, 550, 120, 30};
+    Rectangle btn_line      = {160, 550, 80, 30};
+    Rectangle btn_column    = {250, 550, 80, 30};
+    Rectangle btn_wedge     = {340, 550, 80, 30};
 
     bool show_formation_menu = false;
 
@@ -215,6 +219,7 @@ int main(void) {
 
             // UI BAR
             DrawRectangleRec(ui_bar, DARKGRAY);
+            DrawTextureRec(ui_spritsheet, uiss_source_rec, uiss_position, RAYWHITE);
 
             // Botão principal
             DrawRectangleRec(btn_formations, RAYWHITE);
